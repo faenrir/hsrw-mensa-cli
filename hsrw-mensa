@@ -1,0 +1,36 @@
+#!/usr/bin/env python3
+var = input("Please enter 'today' or date as 'YYYY-MM-DD': ")
+
+from datetime import datetime
+
+dateToday = datetime.today().strftime('%Y-%m-%d')
+
+if var == 'today':
+    date = dateToday
+else:
+    date = var
+
+import urllib.request
+import json
+
+def getResponse(url):
+    operUrl = urllib.request.urlopen(url)
+    if(operUrl.getcode()==200):
+        data = operUrl.read()
+        jsonData = json.loads(data)
+    else:
+        print("Error receiving data", operUrl.getcode())
+    return jsonData
+
+def main():
+
+    urlData = "https://openmensa.org/api/v2/canteens/340/days/"+date+"/meals"
+    keys = [1, 'category', 'name']
+    jsonData = getResponse(urlData)
+    for i in jsonData:
+        print("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-")
+        print(f'{i["category"]}: {i["name"]}')
+        print(f'Students: {i["prices"]["students"]}$ || Others: {i["prices"]["others"]}$')
+
+if __name__ == '__main__':
+    main()
