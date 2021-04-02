@@ -3,10 +3,8 @@ var = input("Please enter 'today' or date as 'YYYY-MM-DD': ")
 
 from datetime import datetime
 
-dateToday = datetime.today().strftime('%Y-%m-%d')
-
 if var == 'today':
-    date = dateToday
+    date = datetime.today().strftime('%Y-%m-%d')
 else:
     date = var
 
